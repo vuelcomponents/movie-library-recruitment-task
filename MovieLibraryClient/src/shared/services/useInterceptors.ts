@@ -61,24 +61,6 @@ export default (params: InterceptorParams) => {
       params.emitter.emit("load", false);
       if (params.emitter) {
         switch (error?.response?.status) {
-          case 403:
-            params.emitter.emit("error", {
-              severity: "error",
-              summary: `privileges`,
-              detail: `unsufficientPrivileges`,
-              life: 3000,
-            });
-            break;
-          case 303:
-            params.emitter.emit("info", {
-              severity: "info",
-              summary: `${error.message}`,
-              detail: constructErrorDetail(error.response?.data),
-              life: 3000,
-            });
-            break;
-          case 401:
-            break;
           default:
             params.emitter.emit("error", {
               severity: "error",
@@ -88,7 +70,6 @@ export default (params: InterceptorParams) => {
             });
         }
       }
-
       return error;
     },
   );

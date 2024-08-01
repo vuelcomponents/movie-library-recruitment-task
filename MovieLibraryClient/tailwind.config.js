@@ -7,6 +7,12 @@ export default {
       fontFamily: {
         mulish: "Mulish, sans-serif",
       },
+      height: {
+        'full-minus-20': 'calc(100% - 5rem)',
+      },
+      widows:{
+        'full-minus-20': 'calc(100% - 5rem)',
+      }
     },
   },
   plugins: [require("tailwindcss-primeui")],

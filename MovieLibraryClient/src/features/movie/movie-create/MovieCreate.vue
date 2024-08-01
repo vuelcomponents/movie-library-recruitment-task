@@ -1,5 +1,7 @@
 <script setup lang="ts"></script>
 
-<template></template>
+<template>
+  dasdsad
+</template>
 
 <style scoped></style>
