@@ -1,7 +1,7 @@
-﻿
-using MediatR;
+﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using MovieLibraryServer.Domain.Dto;
+using ValidationException = MovieLibraryServer.Domain.Exceptions.ValidationException;
 
 namespace MovieLibraryServer.Web.Controllers.Base;
 
@@ -21,13 +21,17 @@ public abstract class BaseCrudController<
     where TGetAllQuery : IRequest<List<TDto>>
 {
     [HttpGet("get/{id}")]
-    public async Task<ActionResult<TDto>> Get(int id)
+    public async Task<ActionResult<TDto>> Get(long id)
     {
         try
         {
             var query = (TGetQuery)Activator.CreateInstance(typeof(TGetQuery), id)!;
             var result = await mediator.Send(query);
             return Ok(result);
+        }
+        catch (ValidationException e)
+        {
+            return BadRequest(e.Errors);
         }
         catch (Exception e)
         {
@@ -43,6 +47,10 @@ public abstract class BaseCrudController<
             var query = (TGetAllQuery)Activator.CreateInstance(typeof(TGetAllQuery))!;
             var result = await mediator.Send(query);
             return Ok(result);
+        }
+        catch (ValidationException e)
+        {
+            return BadRequest(e.Errors);
         }
         catch (Exception e)
         {
@@ -61,7 +69,12 @@ public abstract class BaseCrudController<
                     dto
                 )!;
             var result = await mediator.Send(command);
+
             return Ok(result);
+        }
+        catch (ValidationException e)
+        {
+            return BadRequest(e.Errors);
         }
         catch (Exception e)
         {
@@ -78,6 +91,10 @@ public abstract class BaseCrudController<
             var result = await mediator.Send(command);
             return Ok(result);
         }
+        catch (ValidationException e)
+        {
+            return BadRequest(e.Errors);
+        }
         catch (Exception e)
         {
             return BadRequest(e.Message);
@@ -92,6 +109,10 @@ public abstract class BaseCrudController<
             var command = (TDeleteCommand)Activator.CreateInstance(typeof(TDeleteCommand), ids)!;
             await mediator.Send(command);
             return Ok();
+        }
+        catch (ValidationException e)
+        {
+            return BadRequest(e.Errors);
         }
         catch (Exception e)
         {

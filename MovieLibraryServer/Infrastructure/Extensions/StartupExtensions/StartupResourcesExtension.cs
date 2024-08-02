@@ -1,4 +1,5 @@
-﻿namespace MovieLibraryServer.Infrastructure.Extensions.StartupExtensions;
+﻿
+namespace MovieLibraryServer.Infrastructure.Extensions.StartupExtensions;
 
 public static class StartupResourcesExtension
 {

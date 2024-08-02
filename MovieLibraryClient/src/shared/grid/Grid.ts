@@ -15,7 +15,7 @@ export class Grid<T> extends GridDefaults implements IGrid<T> {
   selected: Array<Identified<T>> = new Array<Identified<T>>();
   searchText = "";
   options: GridOptions<Identified<T>>;
-  data:Array<Identified<T>> = new Array<Identified<T>>();
+  data: Array<Identified<T>> = new Array<Identified<T>>();
   loadList: () => Promise<void>;
 
   private readonly onSelectionChanged = (params: SelectionChangedEvent) => {
@@ -40,12 +40,11 @@ export class Grid<T> extends GridDefaults implements IGrid<T> {
         this.api = params.api;
         await this.loadList();
       },
-      onCellValueChanged: events?.onCellValueChanged ?? this.defaultOnCellValueChanged,
+      onCellValueChanged:
+        events?.onCellValueChanged ?? this.defaultOnCellValueChanged,
       onCellClicked: events?.onCellClicked ?? this.defaultOnCellClicked,
       onSelectionChanged: this.onSelectionChanged,
       defaultColDef,
     };
   }
-
-
 }

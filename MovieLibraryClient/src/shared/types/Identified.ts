@@ -1,1 +1,1 @@
-export type Identified<T> = T & {id:number};
+export type Identified<T> = T & { id: number };

@@ -2,15 +2,13 @@ import type { TinyEmitter } from "tiny-emitter";
 import { MovieService } from "../../entities/movie/MovieService";
 
 interface IServices {
-  [key: string]: new (
-    emitter: TinyEmitter
-  ) => any;
+  [key: string]: new (emitter: TinyEmitter) => any;
 }
 
 export class ServiceInstantiator {
   emitter: TinyEmitter;
   services: IServices = {
-    MovieService
+    MovieService,
   };
 
   constructor(emitter: TinyEmitter) {
@@ -21,9 +19,7 @@ export class ServiceInstantiator {
     try {
       switch (typeof service) {
         case "string":
-          return new this.services[service](
-            this.emitter,
-          ) as T;
+          return new this.services[service](this.emitter) as T;
         default:
           return new service(this.emitter) as T;
       }

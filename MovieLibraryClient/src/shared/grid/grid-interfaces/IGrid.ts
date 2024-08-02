@@ -1,7 +1,4 @@
-import type {
-  GridApi,
-  GridOptions,
-} from "ag-grid-community";
+import type { GridApi, GridOptions } from "ag-grid-community";
 import { Identified } from "../../types/Identified.ts";
 export interface IGrid<T> {
   api?: GridApi<Identified<T>>;

@@ -5,21 +5,14 @@ import type {
   InternalAxiosRequestConfig,
 } from "axios";
 import { TinyEmitter } from "tiny-emitter";
+import { constructErrorDetail } from "./services-composables/constructErrorDetails.ts";
+import { constructToastMessage } from "../composables/constructToastMessage.ts";
 
 interface InterceptorParams {
   client: AxiosInstance;
   emitter: TinyEmitter;
 }
 let sent = false;
-const constructErrorDetail = (error: any): any => {
-  if (typeof error === "string") {
-    return error;
-  }
-  if (error?.errors) {
-    return Array.from(Object.values(error.errors)).join(", ");
-  }
-  return "";
-};
 
 export default (params: InterceptorParams) => {
   params.client.interceptors.request.use(
@@ -41,12 +34,12 @@ export default (params: InterceptorParams) => {
           switch (res.config?.method) {
             case "patch":
               if (!sent) {
-                params.emitter.emit("info", {
-                  severity: "info",
-                  summary: "rowHasBeenUpdated",
-                  detail: "",
-                  life: 3000,
-                });
+                const [updateResType, updateResContent] = constructToastMessage(
+                  "info",
+                  "Entity has been updated",
+                  "",
+                );
+                params.emitter.emit(updateResType, updateResContent);
                 sent = true;
               }
               break;
@@ -62,12 +55,12 @@ export default (params: InterceptorParams) => {
       if (params.emitter) {
         switch (error?.response?.status) {
           default:
-            params.emitter.emit("error", {
-              severity: "error",
-              summary: `${error.message}`,
-              detail: constructErrorDetail(error.response?.data),
-              life: 3000,
-            });
+            const [errorType, errorContent] = constructToastMessage(
+              "error",
+              `${error.message}`,
+              constructErrorDetail(error.response?.data),
+            );
+            params.emitter.emit(errorType, errorContent);
         }
       }
       return error;

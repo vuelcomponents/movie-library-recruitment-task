@@ -10,7 +10,7 @@ export default {
       height: {
         'full-minus-20': 'calc(100% - 5rem)',
       },
-      widows:{
+      width:{
         'full-minus-20': 'calc(100% - 5rem)',
       }
     },

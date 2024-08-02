@@ -3,9 +3,9 @@ using RestSharp;
 
 namespace MovieLibraryServer.Infrastructure.Clients;
 
-public abstract class BaseClient(IHttpContextAccessor httpContextAccessor)
+public abstract class BaseClient
 {
-    protected abstract RestClient Client { get; }
+    protected abstract RestClient Client { get; } 
     
     public virtual T Get<T>(string path, Action<Exception>? onException = null)
     {
