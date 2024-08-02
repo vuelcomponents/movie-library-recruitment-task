@@ -4,6 +4,12 @@ import {handleCreateMovieDialog} from "./movie-composables/handleCreateMovieDial
 import MovieCreate from "./movie-create/MovieCreate.vue";
 import MovieUpdate from "./movie-update/MovieUpdate.vue";
 import MovieGrid from "./movie-grid/MovieGrid.vue";
+import {inject} from "vue";
+import {ServiceInstantiator} from "../../shared/services/ServiceInstantiator.ts";
+import {MovieService} from "../../entities/movie/MovieService.ts";
+
+const serviceInstantiator = inject<ServiceInstantiator>('ServiceInstantiator')!;
+const movieService:MovieService = serviceInstantiator.create<MovieService>('MovieService')!
 
 const {
   updatedMovie,
@@ -30,7 +36,7 @@ console.log({ onCreateMovieDialogOpen, onCreateMovieDialogClose, createMovieDial
     <MovieUpdate v-if="updateMovieDialogOpened"/>
   </section>
   <section>
-    <MovieGrid/>
+    <MovieGrid :movieService="movieService"/>
   </section>
 </template>
 

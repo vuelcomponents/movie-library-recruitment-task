@@ -5,6 +5,13 @@ import {Movie} from "../../../entities/movie/Movie.ts";
 import {movieGridColumns} from "./movie-grid-columns/movieGridColumns.ts";
 import {GridPlus} from "../../../shared/grid/GridPlus.ts";
 import {IGridPlus} from "../../../shared/grid/grid-interfaces/IGridPlus.ts";
+import {AxiosResponse} from "axios";
+import {Identified} from "../../../shared/types/Identified.ts";
+import {MovieService} from "../../../entities/movie/MovieService.ts";
+
+const props = defineProps<{
+  movieService:MovieService
+}>();
 
 const grid = ref<IGridPlus<Movie>>(
     new GridPlus({
@@ -15,7 +22,9 @@ const grid = ref<IGridPlus<Movie>>(
       },
       functions:{
         loadList:()=>{
-          grid.value.api!.setGridOption('rowData', []);
+          props.movieService.getAll().then((res:AxiosResponse<Array<Identified<Movie>>>)=>{
+            grid.value.api!.setGridOption('rowData', res.data);
+          })
         }
       }
     })

@@ -3,6 +3,7 @@ import type { AxiosInstance, AxiosResponse } from "axios";
 import axios from "axios";
 import type { TinyEmitter } from "tiny-emitter";
 import { getAssociatedUrl } from "../resources/urls.ts";
+import {Identified} from "../types/Identified.ts";
 
 export abstract class Service<T> {
   emitter: TinyEmitter;
@@ -16,19 +17,19 @@ export abstract class Service<T> {
     useInterceptors({ client: this.http, emitter });
   }
 
-  getAll(): Promise<AxiosResponse<Array<T>>> {
+  getAll(): Promise<AxiosResponse<Array<Identified<T>>>> {
     return this.http.get(`${this.host}/${this.path}/get`);
   }
 
-  getById(id: number): Promise<AxiosResponse<T>> {
+  getById(id: number): Promise<AxiosResponse<Identified<T>>> {
     return this.http.get(`${this.host}/${this.path}/get/${id}`);
   }
 
-  create(object: any): Promise<AxiosResponse<T>> {
+  create(object: any): Promise<AxiosResponse<Identified<T>>> {
     return this.http.post(`${this.host}/${this.path}/create`, object);
   }
 
-  update(object: any): Promise<AxiosResponse<T>> {
+  update(object: any): Promise<AxiosResponse<Identified<T>>> {
     return this.http.patch(`${this.host}/${this.path}/update`, object);
   }
 

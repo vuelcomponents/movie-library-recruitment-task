@@ -6,6 +6,7 @@ import {useRouter} from "./plugins/useRouter.ts";
 import {useEmitter} from "./plugins/useEmitter.ts";
 import {useServiceInstantiator} from "./plugins/useServiceInstantiator.ts";
 import {useToast} from "./plugins/useToast.ts";
+import {useGridRenderers} from "./plugins/useGridRenderers.ts";
 
 const app = createApp(App);
 
@@ -14,5 +15,5 @@ useRouter(app);
 const emitter = useEmitter(app);
 useServiceInstantiator(app, emitter);
 useToast(app);
-
+useGridRenderers(app)
 app.mount("#app");

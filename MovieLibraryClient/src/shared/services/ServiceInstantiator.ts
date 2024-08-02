@@ -15,16 +15,17 @@ export class ServiceInstantiator {
     this.emitter = emitter;
   }
 
-  create<T>(service: any): T | void {
+  create<T>(service: any): T | undefined  {
     try {
       switch (typeof service) {
         case "string":
-          return new this.services[service](this.emitter) as T;
+          return (new this.services[service](this.emitter) as T)!;
         default:
-          return new service(this.emitter) as T;
+          return (new service(this.emitter) as T)!;
       }
     } catch (e) {
       this.emitter.emit("error", "No valid service has been found");
+      return undefined;
     }
   }
 }

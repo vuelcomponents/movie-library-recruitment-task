@@ -16,5 +16,9 @@ public sealed class CreateMovieCommandValidator : AbstractValidator<CreateMovieC
             .GreaterThan(1900)
             .LessThan(2200)
             .WithMessage("Year must be between 1900 and 2200");
+        RuleFor(x => x.MovieCreateDto.Rate)
+            .GreaterThanOrEqualTo(0)
+            .LessThanOrEqualTo(10)
+            .WithMessage("Rate must be between 0 and 10");
     }
 }
