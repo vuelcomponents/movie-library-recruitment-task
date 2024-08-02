@@ -4,7 +4,7 @@ using MovieLibraryServer.Infrastructure.Persistence.Repositories;
 
 namespace MovieLibraryServer.Features.Movie.Queries;
 
-public sealed class GetAllMovieQueryHandler(IMovieRepository<Domain.Entities.Movie> movieRepository)
+public sealed class GetAllMovieQueryHandler(IMovieRepository movieRepository)
     : IRequestHandler<GetAllMovieQuery, List<MovieDto>>
 {
     public async Task<List<MovieDto>> Handle(
@@ -12,7 +12,7 @@ public sealed class GetAllMovieQueryHandler(IMovieRepository<Domain.Entities.Mov
         CancellationToken cancellationToken
     )
     {
-        var movieStream = movieRepository.GetAllAsync();
+        var movieStream = movieRepository.GetAllAsync(null,cancellationToken);
 
         var movieDtos = await movieStream
             .SelectAwait(m =>

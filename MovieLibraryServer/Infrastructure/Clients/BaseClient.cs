@@ -7,7 +7,7 @@ public abstract class BaseClient
 {
     protected abstract RestClient Client { get; } 
     
-    public virtual T Get<T>(string path, Action<Exception>? onException = null)
+    public virtual T Get<T>(string path, Action<Exception>? onException = null, CancellationToken? cancellationToken = null)
     {
         var request = new RestRequest($"{path}");
 
@@ -28,7 +28,7 @@ public abstract class BaseClient
         return JsonConvert.DeserializeObject<T>(responseData)!;
     }
 
-    public virtual async Task<T> GetAsync<T>(string path, Action<Exception>? onException = null)
+    public virtual async Task<T> GetAsync<T>(string path, Action<Exception>? onException = null,  CancellationToken? cancellationToken = null)
     {
         var request = new RestRequest($"{path}");
 
@@ -49,7 +49,7 @@ public abstract class BaseClient
         return JsonConvert.DeserializeObject<T>(responseData)!;
     }
 
-    public virtual async Task CallAsync(string path, Action<Exception>? onException = null)
+    public virtual async Task CallAsync(string path, Action<Exception>? onException = null,  CancellationToken? cancellationToken = null)
     {
         var request = new RestRequest($"{path}");
 

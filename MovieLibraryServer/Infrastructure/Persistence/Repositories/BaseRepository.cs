@@ -12,7 +12,8 @@ public abstract class BaseRepository<T>(MovieLibraryDataContext movieLibraryData
     
     public virtual async Task<T?> GetAsync(
         Expression<Func<T, bool>> predicate,
-        Expression<Func<T, object>>? include = null
+        Expression<Func<T, object>>? include = null,
+        CancellationToken? cancellationToken =  null
     )
     {
         return include != null
@@ -20,7 +21,7 @@ public abstract class BaseRepository<T>(MovieLibraryDataContext movieLibraryData
             : await MovieLibraryDataContext.Set<T>().FirstOrDefaultAsync(predicate);
     }
 
-    public virtual async IAsyncEnumerable<T> GetAllAsync(Expression<Func<T, bool>>? predicate = null)
+    public virtual async IAsyncEnumerable<T> GetAllAsync(Expression<Func<T, bool>>? predicate = null, CancellationToken? cancellationToken = null)
     {
         if (predicate != null)
         {
@@ -38,19 +39,15 @@ public abstract class BaseRepository<T>(MovieLibraryDataContext movieLibraryData
         }
         
     }
-    public virtual async Task<T> Create(T entity)
+    public virtual async Task<T> Create(T entity, CancellationToken? cancellationToken = null)
     {
         await MovieLibraryDataContext.Set<T>().AddAsync(entity);
         return entity;
     }
 
-    public virtual async Task SaveAsync()
+    public virtual async Task SaveAsync(CancellationToken? cancellationToken = null)
     {
         await MovieLibraryDataContext.SaveChangesAsync();
     }
 
-    public virtual void Save()
-    {
-        MovieLibraryDataContext.SaveChanges();
-    }
 }

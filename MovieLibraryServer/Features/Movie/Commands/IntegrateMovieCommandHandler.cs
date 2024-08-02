@@ -1,5 +1,6 @@
 ﻿using MediatR;
 using MovieLibraryServer.Domain.Dto;
+using MovieLibraryServer.Domain.Exceptions;
 using MovieLibraryServer.Infrastructure.Clients;
 using MovieLibraryServer.Infrastructure.Persistence.Repositories;
 
@@ -7,10 +8,10 @@ namespace MovieLibraryServer.Features.Movie.Commands;
 
 public sealed class IntegrateMovieCommandHandler(
     ExternalMovieApiClient externalMovieApiClient,
-    IMovieRepository<Domain.Entities.Movie> movieRepository
+    IMovieRepository movieRepository
 ) : IRequestHandler<IntegrateMovieCommand, List<MovieDto>>
 {
-    private static readonly object DbContextLock = new object();
+    private static readonly object DbContextLock = new ();
 
     public async Task<List<MovieDto>> Handle(
         IntegrateMovieCommand request,
@@ -18,7 +19,9 @@ public sealed class IntegrateMovieCommandHandler(
     )
     {
         List<MovieDto> downloadedMovies = await externalMovieApiClient.GetAsync<List<MovieDto>>(
-            "/myMovies"
+            "/myMovies", 
+            _ => throw new ExternalMovieLibraryRequestException()
+            ,cancellationToken
         );
 
         List<MovieDto> newMovies = new List<MovieDto>();
@@ -35,7 +38,7 @@ public sealed class IntegrateMovieCommandHandler(
 
         await Task.WhenAll(tasks);
 
-        await movieRepository.SaveAsync();
+        await movieRepository.SaveAsync(cancellationToken);
 
         return newMovies;
     }
@@ -52,7 +55,10 @@ public sealed class IntegrateMovieCommandHandler(
                             lock (DbContextLock)
                             {
                                 existingEntity = movieRepository
-                                    .GetAsync(m => m.Title.Equals(dm.Title!))
+                                    .GetAsync(m => m.Title.Equals(dm.Title!), 
+                                        null,
+                                        cancellationToken
+                                        )
                                     .Result;
                             }
 
@@ -68,7 +74,7 @@ public sealed class IntegrateMovieCommandHandler(
 
                                 lock (DbContextLock)
                                 {
-                                    movieRepository.Create(newMovie);
+                                    movieRepository.Create(newMovie, cancellationToken);
                                 }
 
                                 lock (newMovies)

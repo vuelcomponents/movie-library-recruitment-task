@@ -5,14 +5,14 @@ using Z.EntityFramework.Plus;
 
 namespace MovieLibraryServer.Infrastructure.Persistence.Repositories;
 
-public interface IMovieRepository<TMovie> : IBaseRepository<TMovie>
+public interface IMovieRepository : IBaseRepository<Movie>
 {
-    Task DeleteManyByIdDtoList(List<IdDto> entities);
+    Task DeleteManyByIdDtoList(List<IdDto> entities, CancellationToken? cancellationToken = null);
 }
 
-public sealed class MovieRepository(MovieLibraryDataContext movieLibraryDataContext) : BaseRepository<Movie>(movieLibraryDataContext), IMovieRepository<Movie>
+public sealed class MovieRepository(MovieLibraryDataContext movieLibraryDataContext) : BaseRepository<Movie>(movieLibraryDataContext), IMovieRepository
 {
-    public Task DeleteManyByIdDtoList(List<IdDto> entities)
+    public Task DeleteManyByIdDtoList(List<IdDto> entities, CancellationToken? cancellationToken = null)
     {
         List<long> productIds = entities.Select(p => p.Id).ToList();
         var list = MovieLibraryDataContext.Movies.Where(dbP => productIds.Contains(dbP.Id));

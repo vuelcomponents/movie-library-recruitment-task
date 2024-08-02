@@ -7,7 +7,7 @@ public static class StartupRepositoriesExtension
 {
     public static IServiceCollection AddRepositories(this IServiceCollection services)
     {
-        services.AddScoped<IMovieRepository<Movie>, MovieRepository>();
+        services.AddScoped<IMovieRepository, MovieRepository>();
         return services;
     }
 }

@@ -6,7 +6,7 @@ using MovieLibraryServer.Infrastructure.Persistence.Repositories;
 namespace MovieLibraryServer.Features.Movie.Queries;
 
 public sealed class GetMovieByIdQueryHandler(
-    IMovieRepository<Domain.Entities.Movie> movieRepository
+    IMovieRepository movieRepository
 ) : IRequestHandler<GetMovieByIdQuery, MovieDto>
 {
     public async Task<MovieDto> Handle(
@@ -14,7 +14,7 @@ public sealed class GetMovieByIdQueryHandler(
         CancellationToken cancellationToken
     )
     {
-        var movie = await movieRepository.GetAsync(m => m.Id.Equals(request.Id));
+        var movie = await movieRepository.GetAsync(m => m.Id.Equals(request.Id), null, cancellationToken);
         if (movie == null)
         {
             throw new MovieDoesNotExistException();

@@ -6,7 +6,7 @@ using MovieLibraryServer.Infrastructure.Persistence.Repositories;
 namespace MovieLibraryServer.Features.Movie.Commands;
 
 public sealed class UpdateMovieCommandHandler(
-    IMovieRepository<Domain.Entities.Movie> movieRepository
+    IMovieRepository movieRepository
 ) : IRequestHandler<UpdateMovieCommand, MovieDto>
 {
     public async Task<MovieDto> Handle(
@@ -14,7 +14,7 @@ public sealed class UpdateMovieCommandHandler(
         CancellationToken cancellationToken
     )
     {
-        var movie = await movieRepository.GetAsync(m => m.Id.Equals(request.MovieDto.Id));
+        var movie = await movieRepository.GetAsync(m => m.Id.Equals(request.MovieDto.Id), null, cancellationToken);
         if (movie == null)
         {
             throw new MovieDoesNotExistException();
@@ -31,7 +31,7 @@ public sealed class UpdateMovieCommandHandler(
                 }
             );
 
-        await movieRepository.SaveAsync();
+        await movieRepository.SaveAsync(cancellationToken);
 
         request.MovieDto.Id = movie.Id;
         return request.MovieDto;

@@ -7,7 +7,7 @@ using ValidationException = MovieLibraryServer.Domain.Exceptions.ValidationExcep
 namespace MovieLibraryServer.Features.Movie.Commands;
 
 public sealed class CreateMovieCommandHandler(
-    IMovieRepository<Domain.Entities.Movie> movieRepository
+    IMovieRepository movieRepository
 ) : IRequestHandler<CreateMovieCommand, MovieDto>
 {
     public async Task<MovieDto> Handle(
@@ -29,8 +29,8 @@ public sealed class CreateMovieCommandHandler(
                     }
                 )
         };
-        var retrievedMovie = await movieRepository.Create(movie);
-        await movieRepository.SaveAsync();
+        var retrievedMovie = await movieRepository.Create(movie, cancellationToken);
+        await movieRepository.SaveAsync(cancellationToken);
         request.MovieCreateDto.Id = retrievedMovie.Id;
 
         return request.MovieCreateDto;
