@@ -1,7 +1,8 @@
-﻿using MovieLibraryServer.Domain.Dto;
+﻿using System.Collections.Frozen;
+using Microsoft.EntityFrameworkCore;
+using MovieLibraryServer.Domain.Dto;
 using MovieLibraryServer.Domain.Entities;
 using MovieLibraryServer.Infrastructure.Persistence.Data;
-using Z.EntityFramework.Plus;
 
 namespace MovieLibraryServer.Infrastructure.Persistence.Repositories;
 
@@ -12,11 +13,13 @@ public interface IMovieRepository : IBaseRepository<Movie>
 
 public sealed class MovieRepository(MovieLibraryDataContext movieLibraryDataContext) : BaseRepository<Movie>(movieLibraryDataContext), IMovieRepository
 {
-    public Task DeleteManyByIdDtoList(List<IdDto> entities, CancellationToken? cancellationToken = null)
+    public async Task DeleteManyByIdDtoList(List<IdDto> entities, CancellationToken? cancellationToken = null)
     {
-        List<long> productIds = entities.Select(p => p.Id).ToList();
-        var list = MovieLibraryDataContext.Movies.Where(dbP => productIds.Contains(dbP.Id));
-        list.DeleteAsync();
-        return Task.CompletedTask;
+        FrozenSet<long> productIds = entities.Select(p => p.Id).ToFrozenSet();
+        var list = MovieLibraryDataContext.Movies.Where(dbP => productIds.Contains(dbP.Id)).AsAsyncEnumerable();
+        await foreach (var movie in list.WithCancellation(cancellationToken ?? CancellationToken.None))
+        {
+            MovieLibraryDataContext.Movies.Remove(movie); 
+        }
     }
 }
