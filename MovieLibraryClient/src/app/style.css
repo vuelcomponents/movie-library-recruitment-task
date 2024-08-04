@@ -15,17 +15,17 @@
 
 /* Primary and Surface Palettes */
 :root {
-  --p-primary-50: var(--p-surface-50);
-  --p-primary-100: var(--p-surface-100);
-  --p-primary-200: var(--p-surface-200);
-  --p-primary-300: var(--p-surface-300);
-  --p-primary-400: var(--p-surface-400);
-  --p-primary-500: var(--p-surface-500);
-  --p-primary-600: var(--p-surface-600);
-  --p-primary-700: var(--p-surface-700);
-  --p-primary-800: var(--p-surface-800);
-  --p-primary-900: var(--p-surface-900);
-  --p-primary-950: var(--p-surface-950);
+  --p-movieTheme-50: var(--p-surface-50);
+  --p-movieTheme-100: var(--p-surface-100);
+  --p-movieTheme-200: var(--p-surface-200);
+  --p-movieTheme-300: var(--p-surface-300);
+  --p-movieTheme-400: var(--p-surface-400);
+  --p-movieTheme-500: var(--p-surface-500);
+  --p-movieTheme-600: var(--p-surface-600);
+  --p-movieTheme-100: var(--p-surface-100);
+  --p-movieTheme-800: var(--p-surface-800);
+  --p-movieTheme-900: var(--p-surface-900);
+  --p-movieTheme-950: var(--p-surface-950);
   --p-surface-0: #ffffff;
   --p-surface-50: #f8fafc;
   --p-surface-100: #f1f5f9;
@@ -34,7 +34,7 @@
   --p-surface-400: #94a3b8;
   --p-surface-500: #64748b;
   --p-surface-600: #475569;
-  --p-surface-700: #334155;
+  --p-surface-100: #334155;
   --p-surface-800: #1e293b;
   --p-surface-900: #0f172a;
   --p-surface-950: #020617;
@@ -43,18 +43,18 @@
 
 /* Light Mode */
 :root {
-  --p-primary-color: var(--p-primary-500);
-  --p-primary-contrast-color: var(--p-surface-0);
-  --p-primary-hover-color: var(--p-primary-600);
-  --p-primary-active-color: var(--p-primary-700);
+  --p-movieTheme-color: var(--p-movieTheme-500);
+  --p-movieTheme-contrast-color: var(--p-surface-0);
+  --p-movieTheme-hover-color: var(--p-movieTheme-600);
+  --p-movieTheme-active-color: var(--p-movieTheme-100);
   --p-content-border-color: var(--p-surface-200);
   --p-content-hover-background: var(--p-surface-100);
   --p-content-hover-color: var(--p-surface-800);
-  --p-highlight-background: var(--p-primary-50);
-  --p-highlight-color: var(--p-primary-700);
-  --p-highlight-focus-background: var(--p-primary-100);
-  --p-highlight-focus-color: var(--p-primary-800);
-  --p-text-color: var(--p-surface-700);
+  --p-highlight-background: var(--p-movieTheme-50);
+  --p-highlight-color: var(--p-movieTheme-100);
+  --p-highlight-focus-background: var(--p-movieTheme-100);
+  --p-highlight-focus-color: var(--p-movieTheme-800);
+  --p-text-color: var(--p-surface-100);
   --p-text-hover-color: var(--p-surface-800);
   --p-text-muted-color: var(--p-surface-500);
   --p-text-hover-muted-color: var(--p-surface-600);
@@ -69,22 +69,22 @@
  * :root.app-dark
 */
 :root.p-dark {
-  --p-primary-color: var(--p-primary-400);
-  --p-primary-contrast-color: var(--p-surface-900);
-  --p-primary-hover-color: var(--p-primary-300);
-  --p-primary-active-color: var(--p-primary-200);
-  --p-content-border-color: var(--p-surface-700);
+  --p-movieTheme-color: var(--p-movieTheme-400);
+  --p-movieTheme-contrast-color: var(--p-surface-900);
+  --p-movieTheme-hover-color: var(--p-movieTheme-300);
+  --p-movieTheme-active-color: var(--p-movieTheme-200);
+  --p-content-border-color: var(--p-surface-100);
   --p-content-hover-background: var(--p-surface-800);
   --p-content-hover-color: var(--p-surface-0);
   --p-highlight-background: color-mix(
     in srgb,
-    var(--p-primary-400),
+    var(--p-movieTheme-400),
     transparent 84%
   );
   --p-highlight-color: rgba(255, 255, 255, 0.87);
   --p-highlight-focus-background: color-mix(
     in srgb,
-    var(--p-primary-400),
+    var(--p-movieTheme-400),
     transparent 76%
   );
   --p-highlight-focus-color: rgba(255, 255, 255, 0.87);
@@ -93,3 +93,87 @@
   --p-text-muted-color: var(--p-surface-400);
   --p-text-hover-muted-color: var(--p-surface-300);
 }
+
+
+.ag-theme-quartz {
+  --ag-foreground-color: rgba(var(--p-surface-400),0.9);
+  --ag-background-color: rgba(var(--p-surface-100)/0.5);
+  --ag-header-background-color: rgba(var(--p-surface-100));
+  --ag-header-foreground-color: rgba(var(--p-surface-400));
+  --ag-secondary-foreground-color: rgba(var(--p-surface-100),0.9);
+  --ag-active-color: #dcf836;
+  --ag-range-selection-border-color: #dcf836;
+  --ag-row-border-style: none;
+  --ag-header-column-resize-handle-height: 40%;
+  --ag-header-column-resize-handle-width: 1px;
+  --ag-card-shadow: none;
+  --ag-selected-row-background-color: #dcf836 / 40%;
+}
+
+.ag-theme-quartz {
+  --ag-font-family: Mulish, sans-serif;
+}
+.centered * {
+  display: flex;
+  justify-content: center;
+}
+/*.ag-theme-quartz {*/
+/*  --ag-odd-row-background-color: theme(colors.surface.100 / 3%);*/
+/*}*/
+
+/*.ag-theme-quartz {*/
+/*  --ag-border-color: theme(colors.surface.200);*/
+/*}*/
+
+/*.ag-cell-focus {*/
+/*  --ag-border-radius: theme(borderRadius.md);*/
+/*  border-radius: theme(borderRadius.md);*/
+/*}*/
+
+/*.ag-cell-focus .ag-input-field-input {*/
+/*  --ag-input-focus-border-color: transparent;*/
+/*  background-color: theme(colors.surface.900);*/
+/*}*/
+
+/*.dark .ag-theme-quartz {*/
+/*  --ag-foreground-color: theme(colors.surface.0);*/
+/*  --ag-background-color: theme(colors.surface.950);*/
+/*  --ag-header-background-color: theme(colors.surface.950);*/
+/*  --ag-secondary-foreground-color: theme(colors.surface.0 / 90%);*/
+/*  --ag-active-color: theme(colors.surface.100);*/
+/*  --ag-range-selection-border-color: theme(colors.movieTheme.400 / 80%);*/
+/*  --ag-row-border-style: none;*/
+/*  --ag-header-column-resize-handle-height: 40%;*/
+/*  --ag-header-column-resize-handle-width: 1px;*/
+/*  --ag-font-family: theme(fontFamily.mulish);*/
+/*  --ag-card-shadow: none;*/
+/*  --ag-selected-row-background-color: theme(colors.mintSplash.100 / 5%);*/
+/*}*/
+/*.ag-row-selected {*/
+/*  box-shadow: 0 0 3px 3px #00000010;*/
+/*}*/
+/*.ag-header-cell-text {*/
+/*  font-size: 0.8em;*/
+/*  display: flex;*/
+/*  align-items: center;*/
+/*}*/
+/*.dark .ag-header-cell-text {*/
+/*  color: theme(colors.surface.200 / 40%);*/
+/*}*/
+/*.dark .ag-theme-quartz {*/
+/*  --ag-odd-row-background-color: theme(colors.surface.100 / 0%);*/
+/*}*/
+
+/*.dark .ag-theme-quartz {*/
+/*  --ag-border-color: theme(colors.surface.100);*/
+/*}*/
+
+/*.dark .ag-cell-focus {*/
+/*  --ag-border-radius: theme(borderRadius.md);*/
+/*  border-radius: theme(borderRadius.md);*/
+/*}*/
+
+/*.dark .ag-cell-focus .ag-input-field-input {*/
+/*  --ag-input-focus-border-color: transparent;*/
+/*  background-color: theme(colors.surface.900);*/
+/*}*/

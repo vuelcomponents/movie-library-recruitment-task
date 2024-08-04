@@ -52,6 +52,7 @@ export default (params: InterceptorParams) => {
     },
     (error: AxiosError) => {
       params.emitter.emit("load", false);
+      console.log(error)
       if (params.emitter) {
         switch (error?.response?.status) {
           default:

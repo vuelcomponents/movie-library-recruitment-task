@@ -1,0 +1,1 @@
+export type Actionable<T> = T & {edit:boolean, remove:boolean}

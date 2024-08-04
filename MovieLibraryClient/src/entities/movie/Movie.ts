@@ -1,3 +1,6 @@
 export type Movie = {
-    name:string;
+    title:string
+    rate:number
+    year:number
+    director:string
 }

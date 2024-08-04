@@ -7,16 +7,15 @@ const colDef: ColDef = {
   menuTabs: ["filterMenuTab"],
   filter: true,
   sortable: true,
-  // headerClass:'grid-itm-header',
   editable: false,
   valueGetter: (params: any) => {
     const value = params.data[params.colDef.field];
     if (value) {
       switch (true) {
-        case !isNaN(value):
-          return value.toLocaleString();
-        case !isNaN(Date.parse(value)):
-          return `${new Date(value).toLocaleDateString()} ${new Date(value).toLocaleTimeString()}`;
+        // case !isNaN(value):
+        //   return value.toLocaleString();
+        // case !isNaN(Date.parse(value)):
+        //   return `${new Date(value).toLocaleDateString()} ${new Date(value).toLocaleTimeString()}`;
       }
     }
     return value;

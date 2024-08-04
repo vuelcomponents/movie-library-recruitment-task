@@ -9,6 +9,7 @@ public sealed class CreateMovieCommandValidator : AbstractValidator<CreateMovieC
     {
         RuleFor(x => x.MovieCreateDto.Title)
             .NotNull()
+            .NotEmpty()
             .MaximumLength(200)
             .WithMessage("Title cannot be empty and cannot contain less than 200 characters");
         RuleFor(x => x.MovieCreateDto.Year)

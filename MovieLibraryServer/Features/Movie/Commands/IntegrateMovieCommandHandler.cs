@@ -1,4 +1,5 @@
-﻿using MediatR;
+﻿using System.Collections.Frozen;
+using MediatR;
 using MovieLibraryServer.Domain.Dto;
 using MovieLibraryServer.Domain.Exceptions;
 using MovieLibraryServer.Infrastructure.Clients;
@@ -23,27 +24,42 @@ public sealed class IntegrateMovieCommandHandler(
             _ => throw new ExternalMovieLibraryRequestException()
             ,cancellationToken
         );
-
-        List<MovieDto> newMovies = new List<MovieDto>();
+         
+        FrozenDictionary<string, MovieDto> movieDictionary = downloadedMovies
+            .Where(dm => dm.Title != null) 
+            .ToFrozenDictionary(dm => dm.Title!, dm => dm);
+        
+        HashSet<string> newMovies = new ();
+        
         var tasks = new List<Task>();
 
-        foreach (var dm in downloadedMovies)
+        foreach (var kvp in movieDictionary)
         {
-            if (dm.Title == null)
-            {
-                continue;
-            }
-            AllocateMovies(tasks, dm, newMovies, cancellationToken);
+            AllocateMovies(tasks, kvp.Value, newMovies, cancellationToken);
         }
 
         await Task.WhenAll(tasks);
 
         await movieRepository.SaveAsync(cancellationToken);
 
-        return newMovies;
+        List<Domain.Entities.Movie> dbMovies = new();
+        
+        await foreach (var movie in movieRepository.GetAllAsync(m => newMovies.Contains(m.Title), cancellationToken)
+                           .WithCancellation(cancellationToken))
+        {
+            dbMovies.Add(movie);
+        }
+        return dbMovies.Select(m=>new MovieDto
+        {
+            Id = m.Id,
+            Director = m.Director,
+            Rate = m.Rate,
+            Title = m.Title,
+            Year = m.Year
+        }).ToList();
     }
 
-    private void AllocateMovies(List<Task> tasks, MovieDto dm, List<MovieDto> newMovies, CancellationToken cancellationToken)
+    private void AllocateMovies(List<Task> tasks, MovieDto dm, HashSet<string> newMovies, CancellationToken cancellationToken)
     {
         tasks.Add(
                 Task.Run(
@@ -79,15 +95,7 @@ public sealed class IntegrateMovieCommandHandler(
 
                                 lock (newMovies)
                                 {
-                                    newMovies.Add(
-                                        new MovieDto
-                                        {
-                                            Director = newMovie.Director,
-                                            Title = newMovie.Title,
-                                            Rate = newMovie.Rate,
-                                            Year = newMovie.Year
-                                        }
-                                    );
+                                    newMovies.Add(newMovie.Title);
                                 }
                             }
                         }

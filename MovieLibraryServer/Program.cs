@@ -1,4 +1,3 @@
-using MovieLibraryServer.Infrastructure.Extensions.AppExtensions;
 using MovieLibraryServer.Infrastructure.Extensions.StartupExtensions;
 using MovieLibraryServer.Infrastructure.Persistence.Data;
 
@@ -13,7 +12,6 @@ builder.Services.AddDbContext<MovieLibraryDataContext>();
 builder.Services.AddMediator();
 builder.Services.AddRepositories();
 builder.Services.AddClients();
-builder.Services.ConfigureSpaProxy();
 var app = builder.Build();
 
 if (app.Environment.IsDevelopment())

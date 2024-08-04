@@ -7,7 +7,7 @@ import {useEmitter} from "./plugins/useEmitter.ts";
 import {useServiceInstantiator} from "./plugins/useServiceInstantiator.ts";
 import {useToast} from "./plugins/useToast.ts";
 import {useGridRenderers} from "./plugins/useGridRenderers.ts";
-
+import './extensions/string-extensions.ts'
 const app = createApp(App);
 
 usePrimeVue(app);

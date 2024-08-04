@@ -34,8 +34,8 @@ export class Grid<T> extends GridDefaults implements IGrid<T> {
 
     this.loadList = functions?.loadList ?? this.defaultLoadList;
     this.options = {
-      pagination: true,
-      paginationPageSize: 20,
+      // pagination: true,
+      // paginationPageSize: 20,
       onGridReady: async (params: GridReadyEvent) => {
         this.api = params.api;
         await this.loadList();

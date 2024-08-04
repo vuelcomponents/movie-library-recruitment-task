@@ -2,12 +2,10 @@ export default {
   root: {
     class: [
       // Position
-      "relative",
-      "mx-auto",
 
       // Sizing
-      "w-28",
-      "h-28",
+      "w-fit",
+      "h-fit",
 
       // Flexbox
       "inline-block",
