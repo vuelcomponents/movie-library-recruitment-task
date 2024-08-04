@@ -11,6 +11,9 @@ To get the project up and running, follow these steps:
 
 2. **Backend Setup**:
   - Navigate to the backend directory.
+  - Make sure you have `dotnet ef tools` installed
+  - Configure **connection string** to your Database in **appsettings.json**
+  - Run `dotnet ef database update --context MovieLibraryDataContext`
   - Run `dotnet run` to start the backend server.
 
 3. **Automatic Frontend Launch**:

@@ -1,10 +1,11 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using MovieLibraryServer.Infrastructure.Options;
+using MovieLibraryServer.Infrastructure.Persistence.Data;
 
-namespace MovieLibraryServer.Infrastructure.Persistence.Data;
+namespace MovieLibraryServer.Tests;
 
-public class InMemoryMovieLibraryDataContext(IOptions<ConnectionStrings> connectionStrings) : MovieLibraryDataContext(connectionStrings)
+internal class InMemoryMovieLibraryDataContext(IOptions<ConnectionStrings> connectionStrings) : MovieLibraryDataContext(connectionStrings)
 {
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {

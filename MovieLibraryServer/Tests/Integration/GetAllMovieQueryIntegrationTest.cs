@@ -1,10 +1,8 @@
 ﻿using Microsoft.Extensions.Options;
 using Moq;
 using MovieLibraryServer.Domain.Dto;
-using MovieLibraryServer.Features.Movie.Commands;
 using MovieLibraryServer.Features.Movie.Queries;
 using MovieLibraryServer.Infrastructure.Options;
-using MovieLibraryServer.Infrastructure.Persistence.Data;
 using MovieLibraryServer.Infrastructure.Persistence.Repositories;
 using Xunit;
 
